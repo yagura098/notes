@@ -20,7 +20,7 @@ interface FormData {
   id: string
 }
 
-const Home = ({notes}: Notes) => {
+const Home = ({notes, userId}: Notes) => {
   const [form, setForm] = useState<FormData>({title: '', content: '', id: ''})
   const router = useRouter()
 
@@ -39,13 +39,26 @@ const Home = ({notes}: Notes) => {
     const item = localStorage.getItem("usertoken");
 
     if (!item) {
-      router.push("/login");
+      router.push("/index");
       return;
     }
     
     var token2 = item.split(" ")[1];
     console.log(token2);
-    var data_token = jwt.verify(token2, 'bangmessi');
+    // invalid token - synchronous
+    try {
+      var data_token = jwt.verify(token2, 'bangmessi');
+
+      if ( !(data_token['id'] == userId['konsol'])){
+
+        return (<div><h1> Anda Tidak Terotorisasi mengakses halaman ini chuuaks </h1></div>);
+      }
+    } catch(err) {
+
+      return (<div><h1> Token Tidak Valid  </h1></div>);
+  // err
+    }
+    
   }
 
   async function create(data: FormData) {
@@ -172,6 +185,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const userId  = context.params
   console.log(userId['konsol']);
   console.log("AADBABD");
+
+  
+
+
   const notes = await prisma.note.findMany({
     select: {
       title: true,
@@ -185,7 +202,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      notes
+      notes,
+      userId
     }
   }
 }

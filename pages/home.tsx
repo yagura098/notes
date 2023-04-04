@@ -50,7 +50,7 @@ const Home = ({notes}: Notes) => {
 
   async function create(data: FormData) {
     try {
-      fetch('http://localhost:3000/api/create', {
+      fetch('http:/localhost:3000/api/create', {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json'
