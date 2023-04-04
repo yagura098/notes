@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { prisma } from '../lib/prisma'
+import { prisma } from '../../lib/prisma'
 import jwtDecode from 'jwt-decode'
 import jwt from 'jsonwebtoken'
 
@@ -99,8 +99,6 @@ const Home = ({notes}: Notes) => {
     }
   }
 
-
-
   return (
     <div>
 
@@ -165,17 +163,23 @@ const Home = ({notes}: Notes) => {
 export default Home
 
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   // konsol/[id]/notes
-
-  const notes = await prisma.note.findUnique({
+  // console.log(context.params)
+  // 2/notes
+  // verify token jwt, jika url 2 dan user id di jwt sama maka bisa membuka web
+  
+  const userId  = context.params
+  console.log(userId['konsol']);
+  console.log("AADBABD");
+  const notes = await prisma.note.findMany({
     select: {
       title: true,
       id: true,
       content: true
     },
     where : {
-      userId: data_token["id"]
+      userId:  Number(userId['konsol'])
     }
   })
 
