@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		const note = await prisma.note.delete({
 			where: {id: Number(noteId)}
 		})
-		res.json(note)
+		res.json({message: "Berhasil"})
 	} else {
 		console.log("Note tidak dapat dibuat");
 	}

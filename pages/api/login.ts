@@ -35,6 +35,8 @@ export default async function handler(
       }
     case "POST":
       try {
+        console.log(body)
+        
         const {username, password} = body;
 
         let is_username_exist = false;

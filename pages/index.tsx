@@ -32,6 +32,7 @@ function Login() {
         axios.post("http://localhost:3000/api/login", data).then((response) => {
             localStorage.setItem("usertoken", "Bearer " + response.data.data);
             const payload = jwtDecode(response.data.data);
+            console.log(payload);
             console.log(payload['id']);
             router.push("/user/" + payload['id'])
         }).catch((error) => {console.log(error);});
