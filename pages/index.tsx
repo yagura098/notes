@@ -30,7 +30,7 @@ function Login() {
         
         console.log("bangmessi");
         axios.post("http://localhost:3000/api/login", data).then((response) => {
-            localStorage.setItem("usertoken", "Bearer " + response.data.data);
+            localStorage.setItem("usertoken", response.data.data);
             const payload = jwtDecode(response.data.data);
             console.log(payload);
             console.log(payload['id']);

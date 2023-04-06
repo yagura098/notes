@@ -3,7 +3,7 @@ import { prisma } from "../../lib/prisma";
 import { use } from "react";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-	const {username, password} = JSON.parse(req.body)
+	const {username, password} = req.body
 	console.log(username)
 	try {
 		await prisma.user.create({
